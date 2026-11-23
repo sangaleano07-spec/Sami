@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10271f">
 <meta name="description" content="Sandino Logística: gestión de entregas, clientes, gastos y caja sin conexión.">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="./icon-192.png">
 <title>Sandino Logística</title>
 <style>
 :root{--bg:#0c1713;--panel:#14251e;--panel2:#1b3027;--gold:#d6b45c;--text:#f4f2e9;--muted:#a9b8af;--line:#30463b;--red:#d77970;--green:#8ec7a1}
@@ -104,7 +105,8 @@ function refreshCash(){let d=$('cashDate');if(!d.value)d.value=today();let t=day
 function saveSettings(){let v=Number($('discountSetting').value);if(!Number.isFinite(v)||v<0||v>50){alert('Usá un descuento entre 0 y 50 %.');return}db.discount=v;persist();calcBolt();alert('Configuración guardada.')}
 function deleteRecord(type,id){if(confirm('¿Eliminar este registro?')){db[type]=db[type].filter(x=>x.id!==id);persist();renderHistory();renderExpenses()}}
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function exportCSV(){let rows=[['TIPO','FECHA','CLIENTE/CONCEPTO','TELEFONO','ORIGEN','DESTINO','BOLT','DESCUENTO','IMPORTE']];db.deliveries.forEach(x=>rows.push(['ENTREGA',x.date,x.client,x.phone,x.origin,x.destination,x.bolt,x.discount,x.final]));db.expenses.forEach(x=>rows.push(['GASTO',x.date,x.concept,'','','','', '',x.amount]));db.customers.forEach(x=>rows.push(['CLIENTE','',x.name,x.phone,'','','','','']));let csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');let a=document.createElement('a'),u=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.href=u;a.download='sandino-logistica-'+today()+'.csv';a.click();URL.revokeObjectURL(u)}
+function exportCSV(){let rows=[['TIPO','FECHA','CLIENTE/CONCEPTO','TELEFONO','ORIGEN','DESTINO','BOLT','DESCUENTO','IMPORTE']];db.deliveries.forEach(x=>rows.push(['ENTREGA',x.date,x.client,x.phone,x.origin,x.destination,x.bolt,x.discount,x.final]));db.expenses.forEach(x=>rows.push(['GASTO',x.date,x.concept,'','','','', '',x.amount]));db.customers.forEach(x=>rows.push(['CLIENTE','',x.name,x.phone,'','','','','']));let csv='﻿'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('
+');let a=document.createElement('a'),u=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.href=u;a.download='sandino-logistica-'+today()+'.csv';a.click();URL.revokeObjectURL(u)}
 function clearAll(){if(confirm('Esto borrará todos los clientes, entregas y gastos guardados en este navegador. ¿Continuar?')){db={deliveries:[],customers:[],expenses:[],discount:5};persist();$('discountSetting').value=5;alert('Datos eliminados.')}}
 $('cashDate').value=today();$('eDate').value=today();$('discountSetting').value=db.discount;render();calcBolt();
 if('serviceWorker' in navigator && location.protocol.startsWith('http')){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}

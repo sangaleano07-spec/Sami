@@ -1,0 +1,1 @@
+Sandino Logística PWA / Android\nSube todos los archivos de esta carpeta al root del repositorio GitHub.\nEl manifiesto usa iconos SVG de texto (no PNG/JPG).\nEn GitHub Pages publica desde main / root. Luego analiza la URL en PWABuilder.\n
